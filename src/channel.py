@@ -1,9 +1,11 @@
 import json
 import os
+from functools import total_ordering
 
 from googleapiclient.discovery import build
 
 
+@total_ordering
 class Channel:
     """Класс для ютуб-канала"""
     YT_API_KEY = os.getenv('YT_API_KEY')
@@ -75,3 +77,27 @@ class Channel:
 
     def __repr__(self):
         return f'{__class__.__name__}({self.__channel_id})'
+
+    def __str__(self):
+        return f'{self.title} ({self.url})'
+
+    def __validate_instance(self, other):
+        if not isinstance(other, self.__class__):
+            return NotImplemented
+        return True
+
+    def __add__(self, other: 'Channel') -> int:
+        self.__validate_instance(other)
+        return self.subscribers_count + other.subscribers_count
+
+    def __sub__(self, other: 'Channel') -> int:
+        self.__validate_instance(other)
+        return self.subscribers_count - other.subscribers_count
+
+    def __eq__(self, other: 'Channel') -> bool:
+        self.__validate_instance(other)
+        return self.subscribers_count == other.subscribers_count
+
+    def __lt__(self, other: 'Channel') -> bool:
+        self.__validate_instance(other)
+        return self.subscribers_count < other.subscribers_count
