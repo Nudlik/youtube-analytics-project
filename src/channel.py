@@ -84,7 +84,6 @@ class Channel:
     def __validate_instance(self, other):
         if not isinstance(other, self.__class__):
             return NotImplemented
-        return True
 
     def __add__(self, other: 'Channel') -> int:
         self.__validate_instance(other)
