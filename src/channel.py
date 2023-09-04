@@ -1,15 +1,12 @@
 import json
-import os
 from functools import total_ordering
 
-from googleapiclient.discovery import build
+from src.settings import BaseAPI
 
 
 @total_ordering
-class Channel:
+class Channel(BaseAPI):
     """Класс для ютуб-канала"""
-    YT_API_KEY = os.getenv('YT_API_KEY')
-    youtube = build('youtube', 'v3', developerKey=YT_API_KEY)
 
     def __init__(self, channel_id: str) -> None:
         """
